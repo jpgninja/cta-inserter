@@ -1,0 +1,8 @@
+syntax:glob
+
+.project
+.DS_Store
+
+node_modules/*
+bower_components/*
+html/libs/vendor/*

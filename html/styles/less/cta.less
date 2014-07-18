@@ -1,0 +1,117 @@
+@transition-duration: 125ms;
+
+
+#cta_Box234234234 { 
+	display:none;
+	border:2px solid #000;
+	background-color:#f0f0f0;
+	color:#333;
+	position:relative;
+	margin:30px auto;
+	padding:20px;
+	text-align:center;
+
+	h3 { 
+		font: normal 20px Arial,sans-serif;
+		margin:0 0 20px;
+	}
+
+	.btn-cta {
+		font: bold 20px Arial,sans-serif;
+		color: rgba(0, 0, 0, 0.8);
+		text-shadow: 0 0.1em 0 rgba(255, 255, 255, 0.5);
+		display: inline-block;
+		outline: none;
+		cursor: pointer;
+		padding: 0.4em 2em 0.5em;
+		-moz-border-radius: 0.3em;
+		-webkit-border-radius: 0.3em;
+		border-radius: 0.3em;
+		border: 1px solid;
+		border-color: #bbbbbb #a2a2a2 #888888;
+		background-color: #eeeeee;
+		background-image: -moz-linear-gradient(#eeeeee, #d4d4d4);
+		background-image: -webkit-linear-gradient(#eeeeee, #d4d4d4);
+		background-image: linear-gradient(#eeeeee, #d4d4d4);
+		-moz-box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.1), 0 0.1em 0.2em rgba(0, 0, 0, 0.3), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+		-webkit-box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.1), 0 0.1em 0.2em rgba(0, 0, 0, 0.3), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+		box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.1), 0 0.1em 0.2em rgba(0, 0, 0, 0.3), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+		-moz-transition: all 100ms;
+		-o-transition: all 100ms;
+		-webkit-transition: all 100ms;
+		transition: all 100ms;
+
+		&:hover {
+			-moz-box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.4), 0 0.1em 0.2em rgba(0, 0, 0, 0.4), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+			-webkit-box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.4), 0 0.1em 0.2em rgba(0, 0, 0, 0.4), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+			box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.4), 0 0.1em 0.2em rgba(0, 0, 0, 0.4), 0 -0.1em 0.07em rgba(0, 0, 0, 0.3) inset, 0 0.1em 0.07em rgba(255, 255, 255, 0.2) inset;
+		}
+		&:active {
+			padding: 0.4em 2em 0.4em;
+			margin-top: 0.1em;
+			border-color: #a2a2a2 #bbbbbb #eeeeee;
+			background-image: -moz-linear-gradient(#e1e1e1, #eeeeee);
+			background-image: -webkit-linear-gradient(#e1e1e1, #eeeeee);
+			background-image: linear-gradient(#e1e1e1, #eeeeee);
+			-moz-box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.1) inset, 0 0.1em 0.1em rgba(0, 0, 0, 0.2) inset, 0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset, -0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset;
+			-webkit-box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.1) inset, 0 0.1em 0.1em rgba(0, 0, 0, 0.2) inset, 0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset, -0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset;
+			box-shadow: 0 0.1em 0.2em rgba(0, 0, 0, 0.1) inset, 0 0.1em 0.1em rgba(0, 0, 0, 0.2) inset, 0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset, -0.05em 0 0.07em rgba(0, 0, 0, 0.2) inset;
+			-moz-transition: all @transition-duration;
+			-o-transition: all @transition-duration;
+			-webkit-transition: all @transition-duration;
+			transition: all @transition-duration;
+		}
+	}
+}
+
+
+
+/**
+ * Context menu
+ */
+
+#cta_Box234234234_context {
+
+	@square_size: 22px;
+	@border_width: 3px;
+
+	display:none;
+	width:(2*@square_size)+2;
+	height:@square_size;
+	position:absolute;
+	border:@border_width solid #fff;
+	z-index:99999;
+	color:white;
+	top:0;
+	right:0;
+	overflow: hidden;
+
+	.item { 
+		width:@square_size;
+		height:@square_size;
+		line-height:@square_size;
+		text-align:center;
+		float:left;
+		font-size:16px;
+		margin-left:1px;
+		-moz-transition: all @transition-duration;
+		-o-transition: all @transition-duration;
+		-webkit-transition: all @transition-duration;
+		transition: all @transition-duration;
+		cursor:pointer;
+
+		&.item-ok {
+			background-color:#036fd2;
+			&:hover {
+				background-color: #0358a3;
+			}
+		}
+
+		&.item-retry {
+			background-color: #CD5D5C;
+			&:hover {
+				background-color: #a54a4a;
+			}
+		}
+	}
+}
