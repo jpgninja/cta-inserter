@@ -11,11 +11,14 @@
 	var outline,
 		ctaBox,
 		ctaContextBox,
+		ctaButton,
 		animationDuration = 125,
 		pub 							= {},
 		bodyObject 				= document.getElementsByTagName('body')[0],
 		self 							= {
 			active: 	false,
+			context: 	false,
+			shifted: 	false,
 			inserted: false
 		};
 
@@ -35,7 +38,6 @@
 		// Create DomOutline object
 		outline = new DomOutline({ onClick: outlineClickHandler});
 		
-
 		// initOutlineLibrary();
 
 		addListeners();
@@ -43,11 +45,11 @@
 
 	function initCTABox() {
 
-		var ctaStyles		= document.createElement('link'),
-			ctaHeading 		= 'Ready to take things to the next level?',
-			ctaButton 		= 'Request a FREE Quote!',
-			ctaContext 		= '<div id="cta_Box234234234_context"><span class="item item-retry">&#10008;</span><span class="item item-ok">&#10004;</span></div>',
-			ctaHtml 			= '<div id="cta_Box234234234"><h3>'+ctaHeading+'</h3><span class="btn-cta">'+ctaButton+'</span>'+ctaContext+'</div>';
+		var ctaStyles				= document.createElement('link'),
+			ctaHeadingLabel 	= 'Ready to take things to the next level?',
+			ctaButtonLabel 		= 'Request a FREE Quote!',
+			ctaContext 				= '<div id="cta_Box234234234_context"><span class="item item-retry">&#10008;</span><span class="item item-ok">&#10004;</span></div>',
+			ctaHtml 					= '<div id="cta_Box234234234"><h3>'+ctaHeadingLabel+'</h3><span class="btn-cta">'+ctaButtonLabel+'</span>'+ctaContext+'</div>';
 
 		// Add it all to the DOM
 		jQuery('body').append(ctaHtml);
@@ -55,9 +57,11 @@
 		// Store our major elements in memory
 		ctaBox 				= jQuery('#cta_Box234234234');
 		ctaContextBox = jQuery('#cta_Box234234234_context');
+		ctaButton 		= ctaBox.find('.btn-cta');
 
+// console.log('ctabtn', ctaButton);
 		// Initiate CTA Styles
-		ctaStyles.setAttribute('href', '//clientcoffee.com/cta/styles/cta.css');
+		ctaStyles.setAttribute('href', 'http://'+aCTA_url+'/styles/cta.css');
 		ctaStyles.setAttribute('rel', 'stylesheet');
 		ctaStyles.setAttribute('type', 'text/css');
 		ctaStyles.setAttribute('media', 'all');
@@ -92,23 +96,30 @@
 
 	function addListeners() {
 		jQuery(document)
-			.on('keydown', checkForTriggerKey)
-			.on('click', checkForTriggerCTA);
+			.on('keydown', 	checkForTriggerKeyDown)
+			.on('keyup', 		checkForTriggerKeyUp)
+			.on('mouseup', 	checkForTriggerCTA);
+
+		jQuery('form')
+			.on('submit', 	checkForDisabledActions);
 
 		jQuery('a')
-			.on('click', checkForDisabledLinks);
+			.on('click', 		checkForDisabledActions);
 
 		ctaBox
-			.on('click', ctaClickHandler);
+			.on('click', 		ctaClickHandler);
 
-		// jQuery('body').on('', checkForTriggerKey);
+		ctaButton
+			.on('click', 		disableAction);
+
+		// jQuery('body').on('', checkForTriggerKeyDown);
 	}
 
 	function addContextListeners() {
 		jQuery('#cta_Box234234234_context .item')
 			.on('click', contextClickHandler);
 
-		// jQuery('body').on('', checkForTriggerKey);
+		// jQuery('body').on('', checkForTriggerKeyDown);
 	}
 
 	function removeContextListeners() {
@@ -136,9 +147,11 @@
 			// Context
 			enableContext();
 			ctaBox.detach().insertBefore(chosenTargetElement).fadeIn(animationDuration);
+			console.log('ctaBox', ctaBox);
 
 			stop();
 			self.inserted = true;
+			// return false;
 		}
 	}
 
@@ -170,6 +183,28 @@
   }
   
 
+	function setColor(source) {
+		var sourceElement,
+			sourceColor,
+			sourceBackgroundColor;
+
+		if (source) {
+			
+			// var value = (self.shifted === true) ? 'color' : 'background-color';
+
+			sourceElement = jQuery(source);
+			sourceBackgroundColor = sourceElement.css('background-color');
+			sourceColor = sourceElement.css('color');
+			ctaBox.css({
+				'background-color': sourceBackgroundColor,
+				'color': sourceColor,
+				'border': 'none'
+			});
+
+			ctaBox.find('.btn-cta').css('background-color', sourceColor);
+
+		}
+	}
 
 /**
  * ==================================================================
@@ -180,11 +215,13 @@
 	function enableContext() {
 		addContextListeners();
 		ctaContextBox.fadeIn(animationDuration);
+		self.context 	= true;
 	}
 
 	function disableContext() {
 		removeContextListeners();
 		ctaContextBox.fadeOut(animationDuration);
+		self.context 	= false;
 	}
 
 
@@ -207,9 +244,11 @@
 	// 	init();
 	// }
 
-	function checkForTriggerKey(e) {
+	function checkForTriggerKeyDown(e) {
 	  
 	  e = e || window.event;
+
+	  self.shifted = e.shiftKey;
 
 	  if (e.which === 192) { // ~`
 
@@ -230,29 +269,74 @@
 
 	}
 
-
-	function checkForDisabledLinks(e) {
-    e = e || window.event;
-
-		if (self.active === true) {
-	    e.preventDefault();
-		}
+	function checkForTriggerKeyUp(e) {
+		self.shifted = e.shiftKey;
 	}
 
+
+	function checkForDisabledActions(e) {
+    e = e || window.event;
+
+    var isDisabled = (
+    	(self.active === true)
+    	|| ((self.inserted === true) && (self.context === true))
+  	);
+
+    console.log('checkForDisabledActions:', isDisabled);
+
+		if (isDisabled) {
+	    // e.preventDefault();
+	    disableAction(e);
+	    return false;
+		}
+
+		// if (self.)
+// console.log('self.active:', self.active)
+
+	}
+
+	function disableAction(e) {
+		console.log('disabling action');
+		e.preventDefault();
+		return false;
+	}
 
 	function checkForTriggerCTA(e) { 
 
     e = e || window.event;
 
+    // console.log('checkForTriggerCTA, self.active:', self.active, 'self.context', self.context);
+    var targetElement = jQuery(e.target);
+    console.log('targetElement.parents(ctaBox).length', targetElement.parents(ctaBox).length)
+
+			// console.log('checkForTriggerCTA adding cta');
+			// console.log(targetElement, 'is: ', , 'is within: ', ());
 		if (self.active === true) {
 
 	    e.preventDefault();
-	    e.stopPropogation();
 
-			addCTA();
+
+
+			addCTA(e);
 
 			return false;
 
+		}
+		else if (
+			(self.active === false) 
+			&& (self.context === true)
+			&& (self.inserted === true)
+			&& (!targetElement.is('#cta_Box234234234'))
+			&& (!targetElement.is('#cta_Box234234234_context'))
+			&& (!targetElement.parent().is('#cta_Box234234234'))
+			&& (!targetElement.parent().is('#cta_Box234234234_context'))
+		) {
+	  
+	    // e.preventDefault();
+
+
+	    setColor(e.target);
+	   	return false;
 		}
 
 	}
@@ -293,7 +377,6 @@
   	if (e.length > 0) {
 	  	addCTA(e);
   	}
-
 	}
 
 

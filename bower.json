@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "jquery": "latest",
-    // "gsap": "latest",
     "domoutline": "git@github.com:andrewchilds/jQuery.DomOutline.git"
   },
   "private": true,
@@ -14,13 +13,6 @@
         "bower_components/jquery/dist/jquery.js"
       ]
     },
-    // "gsap": {
-    //   "path": "html/libs/vendor/gsap/",
-    //   "sources": [
-    //     "bower_components/gsap/src/uncompressed/TweenMax.js",
-    //     "bower_components/gsap/src/uncompressed/jquery.gsap.js"
-    //   ]
-    // },
     "domoutline": {
       "path": "html/libs/vendor/domoutline/",
       "sources": [
